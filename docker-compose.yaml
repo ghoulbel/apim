@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+  my-http-listener:
+      image: mendhak/http-https-echo:31
+      ports:
+          - "8080:8080"
+          - "8443:8443"
+  api-manager:
+    build: .
+    healthcheck:
+      test: ["CMD", "nc", "-z","localhost", "9443"]
+      interval: 10s
+      start_period: 180s
+      retries: 20
+    volumes:
+      - ./conf/deployment.toml:/home/wso2carbon/wso2-config-volume/repository/conf/deployment.toml
+    ports:
+      - "9443:9443"
+      - "8280:8280"
+      - "8243:8243"
