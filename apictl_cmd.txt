@@ -2,17 +2,3 @@ apictl add env test --apim https://localhost:9443
 apictl login test -u admin -p admin -k
 apictl import api -e test -f . --update --verbose --rotate-revision --params params.yaml --insecure
 apictl logout test
-
-curl --location 'https://tomcat-test.rz.uni-potsdam.de:8443/rooms-1.0/ws' \
---header 'Content-Type: text/xml;charset=UTF-8' \
---data '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:room="http://rooms.provider.elis.unipotsdam.de/">
-   <soapenv:Header/>
-   <soapenv:Body>
-      <room:rooms4Time>
-         <campus>2</campus>
-         <startTime>2023-07-20T12:00:00.000Z</startTime>
-         <endTime>2023-07-20T14:00:00.000Z</endTime>
-      </room:rooms4Time>
-   </soapenv:Body>
-</soapenv:Envelope>'
- 
