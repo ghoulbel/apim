@@ -14,7 +14,8 @@
     <property name="startTime" expression="$url:startTime" />
     <property name="endTime" expression="$url:endTime" />
     
-    <!-- Log parameters for debugging 
+    <!-- Log parameters for debugging -->
+    <!--
     <log level="custom">
         <property name="SOAPAction" expression="$trp:SOAPAction" />
         <property name="REST_URL_POSTFIX" expression="$axis2:REST_URL_POSTFIX" />
@@ -27,8 +28,26 @@
     -->
 
     <property name="messageType" scope="axis2" value="application/xml"/>
-
     <property name="HTTP_METHOD" value="POST" scope="axis2" type="STRING"/>
+
+    <!-- Conditionally define building and room properties -->
+    <filter xpath="boolean($ctx:building)">
+        <then>
+            <property name="buildingElem" expression="fn:concat('&lt;building&gt;', $ctx:building, '&lt;/building&gt;')" scope="default"/>
+        </then>
+        <else>
+            <property name="buildingElem" value="" scope="default"/>
+        </else>
+    </filter>
+
+    <filter xpath="boolean($ctx:room)">
+        <then>
+            <property name="roomElem" expression="fn:concat('&lt;room&gt;', $ctx:room, '&lt;/room&gt;')" scope="default"/>
+        </then>
+        <else>
+            <property name="roomElem" value="" scope="default"/>
+        </else>
+    </filter>
 
     <payloadFactory media-type="xml">
         <format>
@@ -37,8 +56,8 @@
                 <soapenv:Body xmlns="">
                     <room:rooms4Time>
                         <campus>$1</campus>
-                        <building>$2</building>
-                        <room>$3</room>
+                        $2
+                        $3
                         <startTime>$4</startTime>
                         <endTime>$5</endTime>
                     </room:rooms4Time>
@@ -47,19 +66,13 @@
         </format>
         <args>
             <arg evaluator="xml" expression="$ctx:campus"/>
-            <arg evaluator="xml" expression="$ctx:building"/>
-            <arg evaluator="xml" expression="$ctx:room"/>
+            <arg evaluator="xml" expression="$ctx:buildingElem"/>
+            <arg evaluator="xml" expression="$ctx:roomElem"/>
             <arg evaluator="xml" expression="$ctx:startTime"/>
             <arg evaluator="xml" expression="$ctx:endTime"/>
         </args>
     </payloadFactory>
 
-
-    <!--
-    <log level="custom">
-        <property name="body" expression="$body" />
-    </log>
-    -->
     <property name="ContentType" value="text/xml" scope="axis2"/>
 
     <log level="custom">
