@@ -37,14 +37,18 @@
                 <soapenv:Body xmlns="">
                     <room:rooms4Time>
                         <campus>$1</campus>
-                        <startTime>$2</startTime>
-                        <endTime>$3</endTime>
+                        <building>$2</building>
+                        <room>$3</room>
+                        <startTime>$4</startTime>
+                        <endTime>$5</endTime>
                     </room:rooms4Time>
                 </soapenv:Body>
             </soapenv:Envelope>
         </format>
         <args>
             <arg evaluator="xml" expression="$ctx:campus"/>
+            <arg evaluator="xml" expression="$ctx:building"/>
+            <arg evaluator="xml" expression="$ctx:room"/>
             <arg evaluator="xml" expression="$ctx:startTime"/>
             <arg evaluator="xml" expression="$ctx:endTime"/>
         </args>
