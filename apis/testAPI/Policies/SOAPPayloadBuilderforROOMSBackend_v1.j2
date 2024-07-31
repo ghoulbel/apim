@@ -14,8 +14,7 @@
     <property name="startTime" expression="$url:startTime" />
     <property name="endTime" expression="$url:endTime" />
     
-    <!-- Log parameters for debugging -->
-    <!--
+    <!-- Log parameters for debugging 
     <log level="custom">
         <property name="SOAPAction" expression="$trp:SOAPAction" />
         <property name="REST_URL_POSTFIX" expression="$axis2:REST_URL_POSTFIX" />
@@ -28,25 +27,22 @@
     -->
 
     <property name="messageType" scope="axis2" value="application/xml"/>
+
     <property name="HTTP_METHOD" value="POST" scope="axis2" type="STRING"/>
 
-    <!-- Conditionally define building and room properties -->
-    <filter xpath="boolean($ctx:building)">
+    <!-- Conditionally define building and room properties string-length-->
+    <property name="buildingElem" value=""/>
+    <filter xpath="string-length($ctx:building)=0.0">
         <then>
             <property name="buildingElem" expression="fn:concat('&lt;building&gt;', $ctx:building, '&lt;/building&gt;')" scope="default"/>
         </then>
-        <else>
-            <property name="buildingElem" value="" scope="default"/>
-        </else>
     </filter>
-
-    <filter xpath="boolean($ctx:room)">
+    
+    <property name="roomElem" value=""/>
+    <filter xpath="string-length($ctx:room)=0.0">
         <then>
             <property name="roomElem" expression="fn:concat('&lt;room&gt;', $ctx:room, '&lt;/room&gt;')" scope="default"/>
         </then>
-        <else>
-            <property name="roomElem" value="" scope="default"/>
-        </else>
     </filter>
 
     <payloadFactory media-type="xml">
@@ -72,6 +68,14 @@
             <arg evaluator="xml" expression="$ctx:endTime"/>
         </args>
     </payloadFactory>
+
+    <property description="messageProperty" name="messageType" scope="axis2" type="STRING" value="application/soap+xml"/>
+
+    <!--    
+    <log level="custom">
+        <property name="body" expression="$body" />
+    </log>
+    -->
 
     <property name="ContentType" value="text/xml" scope="axis2"/>
 
