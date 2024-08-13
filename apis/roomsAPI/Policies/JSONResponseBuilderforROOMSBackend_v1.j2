@@ -1,0 +1,80 @@
+<sequence name="rooms-json-response-builder-policy" trace="disable">
+    <log level="custom">
+        <property name="JSONResponseBuilderforROOMSBackend_v1" value="start" />
+        <property name="Flow" value="Response" />
+        <property name="api.ut.resource" expression="$ctx:api.ut.resource" />
+        <property name="activityid" expression="$trp:activityid" />
+    </log>
+    
+    <property name="messageType" scope="axis2" type="STRING" value="application/xml"/>
+    
+    <!-- Check if SOAP Fault -->
+    <property name="soapFaultCode" expression="$body/soapenv:Fault/soapenv:Code/soapenv:Value" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"/>
+    <property name="soapFaultReason" expression="$body/soapenv:Fault/soapenv:Reason/soapenv:Text" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"/>
+    
+<!--     
+    <log level="custom">
+        <property name="boolean" expression="boolean(get-property('soapFaultCode'))" type="BOOLEAN" />
+        <property name="body" expression="$ctx:body"/>
+    </log>
+-->
+    <filter source="boolean(get-property('soapFaultCode'))" regex="true">
+        <then>
+            <payloadFactory media-type="json">
+                <format>{
+                   "message": "Invalid Request"
+                }</format>
+                <args/>
+            </payloadFactory>
+            <property name="HTTP_SC" value="400" scope="axis2"/>
+            <log level="custom">
+                <property name="JSONResponseBuilderforROOMSBackend_v1" value="SOAP Fault" />
+                <property name="Flow" value="Response" />
+                <property name="soapFaultCode" expression="$ctx:soapFaultCode" />
+                <property name="soapFaultReason" expression="$ctx:soapFaultReason" />
+                <property name="ResponseCode" expression="$axis2:HTTP_SC" />
+                <property name="activityid" expression="$trp:activityid" />
+            </log>
+            <respond/>
+        </then>
+    </filter>
+    <filter source="$ctx:api.ut.resource" regex=".*rooms4Time.*">
+        <then>
+            <property name="rooms4TimeResponse" expression="$body//ns2:rooms4TimeResponse" xmlns:ns2="http://rooms.provider.elis.unipotsdam.de/" type="OM"/>
+            <property name="roomsResponse" expression="$ctx:rooms4TimeResponse"/>
+        </then>
+    </filter>
+    <filter source="$ctx:api.ut.resource" regex=".*reservation.*">
+        <then>
+            <property name="reservationsResponse" expression="$body//ns2:reservationsResponse" xmlns:ns2="http://rooms.provider.elis.unipotsdam.de/" type="OM"/>
+            <property name="roomsResponse" expression="$ctx:reservationsResponse"/>
+        </then>
+    </filter>
+<!-- 
+    <log level="custom">
+        <property name="roomsResponse" expression="$ctx:roomsResponse" />
+    </log>
+-->
+    <payloadFactory media-type="xml">
+        <format>
+            <soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope">
+                <soap:Header />
+                <soap:Body>$1</soap:Body>
+            </soap:Envelope>
+        </format>
+        <args>
+            <arg evaluator="xml" expression="$ctx:roomsResponse"/>
+        </args>
+    </payloadFactory>
+    <filter source="$ctx:api.ut.resource" regex=".*format=json.*">
+        <then>
+            <property name="messageType" scope="axis2" type="STRING" value="application/json"/>
+        </then>
+    </filter>
+    <log level="custom">
+        <property name="JSONResponseBuilderforROOMSBackend_v1" value="end" />
+        <property name="Flow" value="Response" />
+        <property name="ResponseCode" expression="$axis2:HTTP_SC" />
+        <property name="activityid" expression="$trp:activityid" />
+    </log>
+</sequence>

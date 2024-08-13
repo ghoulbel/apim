@@ -1,0 +1,124 @@
+<sequence xmlns="http://ws.apache.org/ns/synapse" name="rooms-soap-payload-builder-policy">
+    <log level="custom">
+        <property name="SOAPPayloadBuilderforROOMSBackend_v1" value="start" />
+        <property name="HTTP_METHOD" expression="$axis2:HTTP_METHOD" />
+        <property name="REST_URL_POSTFIX" expression="substring-after($axis2:REST_URL_POSTFIX,'/')" />
+        <property name="Flow" value="Request" />
+        <property name="activityid" expression="$trp:activityid" />
+    </log> 
+
+    <!-- Get properties from Request URL Query Parameters -->
+    <property name="campus" expression="$url:campus" />
+    <property name="building" expression="$url:building" />
+    <property name="room" expression="$url:room" />
+    <property name="startTime" expression="$url:startTime" />
+    <property name="endTime" expression="$url:endTime" />
+    
+    <!-- Log parameters for debugging 
+    <log level="custom">
+        <property name="SOAPAction" expression="$trp:SOAPAction" />
+        <property name="REST_URL_POSTFIX" expression="$axis2:REST_URL_POSTFIX" />
+        <property name="campus" expression="$ctx:campus" />
+        <property name="building" expression="$ctx:building" />
+        <property name="room" expression="$ctx:room" />
+        <property name="startTime" expression="$ctx:startTime" />
+        <property name="endTime" expression="$ctx:endTime" />
+    </log>
+    -->
+
+    <property name="messageType" scope="axis2" value="application/xml"/>
+
+    <property name="HTTP_METHOD" value="POST" scope="axis2" type="STRING"/>
+
+    <!-- Conditionally define building and room properties string-length-->
+    <property name="buildingElem" value=""/>
+    <filter xpath="$ctx:building > 0">
+        <then>
+            <property name="buildingElem" expression="fn:concat('&lt;building&gt;', $ctx:building, '&lt;/building&gt;')" scope="default"/>
+        </then>
+    </filter>
+    
+    <property name="roomElem" value=""/>
+    <filter xpath="$ctx:room > 0">
+
+        <then>
+            <property name="roomElem" expression="fn:concat('&lt;room&gt;', $ctx:room, '&lt;/room&gt;')" scope="default"/>
+        </then>
+    </filter>
+    <property name="REST_URL_POSTFIX_FOR_SWITCH" expression="substring-before(substring-after($axis2:REST_URL_POSTFIX,'/'),'?')" />
+    <switch source="$ctx:REST_URL_POSTFIX_FOR_SWITCH">
+        <case regex="rooms4Time">
+            <log level="custom">
+                <property name="rooms4Time" value="start" />
+            </log> 
+            <payloadFactory media-type="xml">
+                <format>
+                    <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:room="http://rooms.provider.elis.unipotsdam.de/">
+                        <soapenv:Header/>
+                        <soapenv:Body xmlns="">
+                            <room:rooms4Time>
+                                <campus>$1</campus>
+                                $2
+                                $3
+                                <startTime>$4</startTime>
+                                <endTime>$5</endTime>
+                            </room:rooms4Time>
+                        </soapenv:Body>
+                    </soapenv:Envelope>
+                </format>
+                <args>
+                    <arg evaluator="xml" expression="$ctx:campus"/>
+                    <arg evaluator="xml" expression="$ctx:buildingElem"/>
+                    <arg evaluator="xml" expression="$ctx:roomElem"/>
+                    <arg evaluator="xml" expression="$ctx:startTime"/>
+                    <arg evaluator="xml" expression="$ctx:endTime"/>
+                </args>
+            </payloadFactory>
+        </case>
+        <case regex="reservations">
+            <log level="custom">
+                <property name="reservations" value="start" />
+            </log>
+            <payloadFactory media-type="xml">
+                <format>
+                    <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:room="http://rooms.provider.elis.unipotsdam.de/">
+                        <soapenv:Header/>
+                        <soapenv:Body xmlns="">
+                            <room:reservations>
+                                <campus>$1</campus>
+                                $2
+                                $3
+                                <startTime>$4</startTime>
+                                <endTime>$5</endTime>
+                            </room:reservations>
+                        </soapenv:Body>
+                    </soapenv:Envelope>
+                </format>
+                <args>
+                    <arg evaluator="xml" expression="$ctx:campus"/>
+                    <arg evaluator="xml" expression="$ctx:buildingElem"/>
+                    <arg evaluator="xml" expression="$ctx:roomElem"/>
+                    <arg evaluator="xml" expression="$ctx:startTime"/>
+                    <arg evaluator="xml" expression="$ctx:endTime"/>
+                </args>
+            </payloadFactory>
+        </case>
+        <default/>
+    </switch>
+    <property description="messageProperty" name="messageType" scope="axis2" type="STRING" value="application/soap+xml"/>
+
+    <!--    
+    <log level="custom">
+        <property name="body" expression="$body" />
+    </log>
+    -->
+
+    <property name="ContentType" value="text/xml" scope="axis2"/>
+
+    <log level="custom">
+        <property name="SOAPPayloadBuilderforROOMSBackend_v1" value="end" />
+        <property name="HTTP_METHOD" expression="$axis2:HTTP_METHOD" />
+        <property name="Flow" value="Request" />
+        <property name="activityid" expression="$trp:activityid" />
+    </log> 
+</sequence>

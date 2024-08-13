@@ -1,0 +1,95 @@
+type: api
+version: v4.3.0
+data:
+  name: roomsAPI
+  context: /roomsAPI
+  version: "2.0"
+  provider: publish-api-pipeline
+  lifeCycleStatus: PUBLISHED
+  isDefaultVersion: false
+  isRevision: false
+  revisionId: 0
+  type: HTTP
+  transport:
+   - http
+  policies:
+   - Unlimited
+  authorizationHeader: Authorization
+  securityScheme:
+   - oauth2
+   - oauth_basic_auth_api_key_mandatory
+   - api_key
+  visibility: RESTRICTED
+  visibleRoles:
+   - internal/subscriber
+  endpointConfig:
+    endpoint_type: http
+    production_endpoints:
+      url: production_url
+  endpointImplementationType: ENDPOINT
+  scopes: []
+  operations:
+   -
+    id: ""
+    target: /reservations
+    verb: GET
+    authType: Application & Application User
+    scopes: []
+    usedProductIds: []
+    operationPolicies:
+      request:
+       -
+        policyName: SOAPPayloadBuilderforROOMSBackend
+        parameters: {}
+      response:
+       - 
+        policyName: JSONResponseBuilderforROOMSBackend
+        parameters: {}
+      fault: []
+   -
+    id: ""
+    target: /reservations4Room
+    verb: GET
+    authType: Application & Application User
+    scopes: []
+    usedProductIds: []
+    operationPolicies:
+      request:
+       -
+        policyName: SOAPPayloadBuilderforROOMSBackend
+        parameters: {}
+      response:
+       - 
+        policyName: JSONResponseBuilderforROOMSBackend
+        parameters: {}
+      fault: []
+   -
+    id: ""
+    target: /rooms4Time
+    verb: GET
+    authType: Application & Application User
+    scopes: []
+    usedProductIds: []
+    operationPolicies:
+      request:
+       -
+        policyName: SOAPPayloadBuilderforROOMSBackend
+        parameters: {}
+      response:
+       - 
+        policyName: JSONResponseBuilderforROOMSBackend
+        parameters: {}
+      fault: []
+   -
+    id: ""
+    target: /update
+    verb: GET
+    authType: Application & Application User
+    scopes: []
+    usedProductIds: []
+    operationPolicies:
+      request: []
+      response: []
+      fault: []
+  websubSubscriptionConfiguration: null
+

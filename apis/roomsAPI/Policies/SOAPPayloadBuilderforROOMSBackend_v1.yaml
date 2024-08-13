@@ -1,0 +1,15 @@
+type: operation_policy_specification
+version: v4.2.0
+data:
+  category: Mediation
+  name: SOAPPayloadBuilderforROOMSBackend
+  version: v1
+  displayName: SOAP Payload Builder for ROOMS Backend
+  description: SOAP Payload Builder for ROOMS Backend
+  applicableFlows:
+   - request
+  supportedGateways:
+   - Synapse
+  supportedApiTypes:
+   - HTTP
+  policyAttributes: []

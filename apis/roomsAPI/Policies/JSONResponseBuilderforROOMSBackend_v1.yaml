@@ -1,0 +1,15 @@
+type: operation_policy_specification
+version: v4.2.0
+data:
+  category: Mediation
+  name: JSONResponseBuilderforROOMSBackend
+  version: v1
+  displayName: JSON Response Builder for ROOMS Backend
+  description: JSON Response Builder for ROOMS Backend
+  applicableFlows:
+   - response
+  supportedGateways:
+   - Synapse
+  supportedApiTypes:
+   - HTTP
+  policyAttributes: []

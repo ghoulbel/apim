@@ -1,0 +1,290 @@
+---
+swagger: "2.0"
+info:
+  version: "2.0"
+  title: roomsAPI
+host: apiup.uni-potsdam.de
+basePath: "/roomsAPI/1.0"
+schemes:
+  - http
+paths:
+  "/reservations":
+    get:
+      description: "Finds all reservations for a given time period; Filter can be campus or campus + building or campus + building + room"
+      summary: "find reservations"
+      produces:
+        - application/json;charset=utf-8
+      parameters:
+        - name: campus
+          in: query
+          type: string
+          required: true
+        - name: building
+          in: query
+          type: "string"
+          required: false
+        - name: "room"
+          in: "query"
+          type: "string"
+          required: false
+        - name: "startTime"
+          in: "query"
+          type: "string"
+          format: "date"
+          required: true
+        - name: "endTime"
+          in: "query"
+          type: "string"
+          format: "date"
+          required: true
+      responses:
+        "200":
+          description: "ok"
+          examples: {}
+        "401":
+          description: "Authorization information is missing or invalid"
+          examples: {}
+        "500":
+          description: "Internal server error"
+          examples: {}
+
+    post:
+      description: "Finds all reservations for a given time period; Filter can be campus or campus + building or campus + building + room"
+      summary: "find reservations"
+      produces:
+        - application/json;charset=utf-8
+      parameters:
+        - name: campus
+          in: query
+          type: string
+          required: true
+        - name: building
+          in: query
+          type: "string"
+          required: false
+        - name: "room"
+          in: "query"
+          type: "string"
+          required: false
+        - name: "startTime"
+          in: "query"
+          type: "string"
+          format: "date"
+          required: true
+        - name: "endTime"
+          in: "query"
+          type: "string"
+          format: "date"
+          required: true
+      responses:
+        "200":
+          description: "ok"
+          examples: {}
+        "401":
+          description: "Authorization information is missing or invalid"
+          examples: {}
+        "500":
+          description: "Internal server error"
+          examples: {}
+
+  "/reservations4Room":
+    get:
+      description: |
+        Finds reservations for a given room and time period
+        (For optimization, roominfo is not in response)
+      summary: "find reservations (without roominfo)"
+      produces:
+        - application/json;charset=utf-8
+      parameters:
+        - name: "campus"
+          in: "query"
+          type: "string"
+          required: true
+        - name: "building"
+          in: "query"
+          type: "string"
+          required: false
+        - name: "room"
+          in: "query"
+          type: "string"
+          required: false
+        - name: "startTime"
+          in: "query"
+          type: "string"
+          format: "date"
+          required: true
+        - name: "endTime"
+          in: "query"
+          type: "string"
+          format: "date"
+          required: true
+      responses:
+        "200":
+          description: "ok"
+          examples: {}
+        "401":
+          description: "Authorization information is missing or invalid"
+          examples: {}
+        "500":
+          description: "Internal server error"
+          examples: {}
+
+    post:
+      description: |
+        Finds reservations for a given room and time period
+        (For optimization, roominfo is not in response)
+      summary: "find reservations (without roominfo)"
+      produces:
+        - application/json;charset=utf-8
+      parameters:
+        - name: "campus"
+          in: "query"
+          type: "string"
+          required: true
+        - name: "building"
+          in: "query"
+          type: "string"
+          required: false
+        - name: "room"
+          in: "query"
+          type: "string"
+          required: false
+        - name: "startTime"
+          in: "query"
+          type: "string"
+          format: "date"
+          required: true
+        - name: "endTime"
+          in: "query"
+          type: "string"
+          format: "date"
+          required: true
+      responses:
+        "200":
+          description: "ok"
+          examples: {}
+        "401":
+          description: "Authorization information is missing or invalid"
+          examples: {}
+        "500":
+          description: "Internal server error"
+          examples: {}
+
+  "/rooms4Time":
+    get:
+      description: "Finds free rooms in a given time period; Additional filter can be campus or campus + building or campus + building + room"
+      summary: "find free rooms"
+      produces:
+        - application/json;charset=utf-8
+      parameters:
+        - name: "campus"
+          in: "query"
+          type: "string"
+          required: true
+        - name: "building"
+          in: "query"
+          type: "string"
+          required: false
+        - name: "room"
+          in: "query"
+          type: "string"
+          required: false
+        - name: "startTime"
+          in: "query"
+          type: "string"
+          format: "date"
+          required: true
+        - name: "endTime"
+          in: "query"
+          type: "string"
+          format: "date"
+          required: true
+      responses:
+        "200":
+          description: "ok"
+          examples: {}
+        "401":
+          description: "Authorization information is missing or invalid"
+          examples: {}
+        "500":
+          description: "Internal server error"
+          examples: {}
+
+    post:
+      description: "Finds free rooms in a given time period; Additional filter can be campus or campus + building or campus + building + room"
+      summary: "find free rooms"
+      produces:
+        - application/json;charset=utf-8
+      parameters:
+        - name: "campus"
+          in: "query"
+          type: "string"
+          required: true
+        - name: "building"
+          in: "query"
+          type: "string"
+          required: false
+        - name: "room"
+          in: "query"
+          type: "string"
+          required: false
+        - name: "startTime"
+          in: "query"
+          type: "string"
+          format: "date"
+          required: true
+        - name: "endTime"
+          in: "query"
+          type: "string"
+          format: "date"
+          required: true
+      responses:
+        "200":
+          description: "ok"
+          examples: {}
+        "401":
+          description: "Authorization information is missing or invalid"
+          examples: {}
+        "500":
+          description: "Internal server error"
+          examples: {}
+
+x-wso2-auth-header: Authorization
+x-wso2-cors:
+  corsConfigurationEnabled: false
+  accessControlAllowOrigins:
+    - '*'
+  accessControlAllowCredentials: false
+  accessControlAllowHeaders:
+    - authorization
+    - Access-Control-Allow-Origin
+    - Content-Type
+    - SOAPAction
+    - apikey
+    - Internal-Key
+  accessControlAllowMethods:
+    - GET
+    - PUT
+    - POST
+    - DELETE
+    - PATCH
+    - OPTIONS
+x-wso2-production-endpoints:
+  urls:
+    - http://my-http-listener:8080
+  type: http
+x-wso2-sandbox-endpoints:
+  urls:
+    - http://my-http-listener:8080
+  type: http
+x-wso2-basePath: /roomsAPI/1.0
+x-wso2-transports:
+  - http
+  - https
+x-wso2-application-security:
+  security-types:
+    - oauth2
+  optional: false
+x-wso2-response-cache:
+  enabled: false
+  cacheTimeoutInSeconds: 300

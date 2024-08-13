@@ -1,0 +1,10 @@
+type: document
+version: v4.2.0
+data:
+  documentId: 36f5e02b-41bc-46fa-a73f-631dd07ae989
+  name: Dokumentations-Repository
+  type: HOWTO
+  summary: Eine Sammlung aller Dokumentationsmaterialien zur RoomsAPI.
+  sourceType: URL
+  sourceUrl: https://gitup.uni-potsdam.de/elis/api-doc/tree/master/RoomsAPI
+  visibility: API_LEVEL

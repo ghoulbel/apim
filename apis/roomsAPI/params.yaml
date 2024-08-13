@@ -1,0 +1,11 @@
+environments:
+  - name: test
+    configs:
+      endpoints:
+        production:
+          url: http://my-http-listener:8080
+  - name: prod
+    configs:
+      endpoints:
+        production:
+          url: http://my-http-listener:8080
