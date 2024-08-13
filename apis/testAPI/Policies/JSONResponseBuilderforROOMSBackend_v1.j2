@@ -2,6 +2,7 @@
     <log level="custom">
         <property name="JSONResponseBuilderforROOMSBackend_v1" value="start" />
         <property name="Flow" value="Response" />
+        <property name="api.ut.resource" expression="$ctx:api.ut.resource" />
         <property name="activityid" expression="$trp:activityid" />
     </log>
     
@@ -37,9 +38,18 @@
             <respond/>
         </then>
     </filter>
-    
-    <property name="roomsResponse" expression="$body//ns2:rooms4TimeResponse" xmlns:ns2="http://rooms.provider.elis.unipotsdam.de/" type="OM"/>
-
+    <filter source="$ctx:api.ut.resource" regex=".*rooms4Time.*">
+        <then>
+            <property name="rooms4TimeResponse" expression="$body//ns2:rooms4TimeResponse" xmlns:ns2="http://rooms.provider.elis.unipotsdam.de/" type="OM"/>
+            <property name="roomsResponse" expression="$ctx:rooms4TimeResponse"/>
+        </then>
+    </filter>
+    <filter source="$ctx:api.ut.resource" regex=".*reservation.*">
+        <then>
+            <property name="reservationsResponse" expression="$body//ns2:reservationsResponse" xmlns:ns2="http://rooms.provider.elis.unipotsdam.de/" type="OM"/>
+            <property name="roomsResponse" expression="$ctx:reservationsResponse"/>
+        </then>
+    </filter>
 <!-- 
     <log level="custom">
         <property name="roomsResponse" expression="$ctx:roomsResponse" />
@@ -56,8 +66,11 @@
             <arg evaluator="xml" expression="$ctx:roomsResponse"/>
         </args>
     </payloadFactory>
-    <property name="messageType" scope="axis2" type="STRING" value="application/json"/>
-
+    <filter source="$ctx:api.ut.resource" regex=".*format=json.*">
+        <then>
+            <property name="messageType" scope="axis2" type="STRING" value="application/json"/>
+        </then>
+    </filter>
     <log level="custom">
         <property name="JSONResponseBuilderforROOMSBackend_v1" value="end" />
         <property name="Flow" value="Response" />

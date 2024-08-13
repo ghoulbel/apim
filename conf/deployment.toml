@@ -96,8 +96,9 @@ gateway_labels =["Default"]
 #expiry_time = "2m"
 
 [apim.analytics]
-enable = false
-auth_token = ""
+enable = true
+type = "elk"
+# auth_token = ""
 
 [apim.key_manager]
 enable_apikey_subscription_validation = true

@@ -1,10 +1,10 @@
 version: '3.8'
 services:
-  # my-http-listener:
-  #     image: mendhak/http-https-echo:31
-  #     ports:
-  #         - "8080:8080"
-  #         - "8443:8443"
+  my-http-listener:
+      image: mendhak/http-https-echo:31
+      ports:
+          - "8080:8080"
+          - "8443:8443"
   api-manager:
     build: .
     healthcheck:
