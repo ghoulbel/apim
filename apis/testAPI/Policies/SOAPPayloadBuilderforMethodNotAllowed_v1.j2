@@ -1,0 +1,27 @@
+<sequence xmlns="http://ws.apache.org/ns/synapse" name="rooms-soap-method-not-allowed-builder-policy">
+    <log level="custom">
+        <property name="SOAPPayloadBuilderforMethodNotAllowed_v1" value="start" />
+        <property name="HTTP_SC" expression="$axis2:HTTP_SC" />
+    </log>
+
+    <!-- Set the response payload -->
+    <payloadFactory media-type="json">
+        <format>
+        {
+           "message": "Method Not Allowed"
+        }
+        </format>
+        <args/>
+    </payloadFactory>
+
+    <!-- Set the HTTP status code to 405 -->
+    <property name="HTTP_SC" value="405" scope="axis2"/>
+
+    <log level="custom">
+        <property name="SOAPPayloadBuilderforMethodNotAllowed_v1" value="end" />
+        <property name="HTTP_SC" expression="$axis2:HTTP_SC" />
+    </log>
+
+    <!-- Directly respond with the status code -->
+    <respond/>
+</sequence>

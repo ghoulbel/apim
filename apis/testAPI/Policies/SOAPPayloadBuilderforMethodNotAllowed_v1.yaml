@@ -1,0 +1,15 @@
+type: operation_policy_specification
+version: v4.2.0
+data:
+  category: Mediation
+  name: SOAPPayloadBuilderforMethodNotAllowed
+  version: v1
+  displayName: SOAP Payload Builder for method not allowed
+  description: SOAP Payload Builder for method not allowed
+  applicableFlows:
+   - request
+  supportedGateways:
+   - Synapse
+  supportedApiTypes:
+   - HTTP
+  policyAttributes: []

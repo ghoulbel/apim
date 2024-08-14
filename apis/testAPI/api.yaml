@@ -72,7 +72,7 @@ data:
   operations:
    -
     id: ""
-    target: /test
+    target: /rooms4Time
     verb: GET
     authType: Application & Application User
     throttlingPolicy: Unlimited
@@ -87,50 +87,17 @@ data:
       fault: []
    -
     id: ""
-    target: /test
-    verb: PUT
-    authType: Application & Application User
-    throttlingPolicy: Unlimited
-    scopes: []
-    usedProductIds: []
-    operationPolicies:
-      request: []
-      response: []
-      fault: []
-   -
-    id: ""
-    target: /test
+    target: /rooms4Time
     verb: POST
     authType: Application & Application User
     throttlingPolicy: Unlimited
     scopes: []
     usedProductIds: []
     operationPolicies:
-      request: []
-      response: []
-      fault: []
-   -
-    id: ""
-    target: /test
-    verb: DELETE
-    authType: Application & Application User
-    throttlingPolicy: Unlimited
-    scopes: []
-    usedProductIds: []
-    operationPolicies:
-      request: []
-      response: []
-      fault: []
-   -
-    id: ""
-    target: /test
-    verb: PATCH
-    authType: Application & Application User
-    throttlingPolicy: Unlimited
-    scopes: []
-    usedProductIds: []
-    operationPolicies:
-      request: []
+      request:
+       -
+        policyName: SOAPPayloadBuilderforMethodNotAllowed
+        parameters: {}
       response: []
       fault: []
   categories: []

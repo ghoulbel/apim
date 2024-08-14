@@ -7,7 +7,7 @@ basePath: /test/1
 schemes:
   - http
 paths:
-  /test:
+  /rooms4Time:
     get:
       description: "Finds all reservations for a given time period; Filter can be campus or campus + building or campus + building + room"
       summary: "find reservations"
