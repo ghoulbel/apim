@@ -45,72 +45,32 @@
             <property name="roomElem" expression="fn:concat('&lt;room&gt;', $ctx:room, '&lt;/room&gt;')" scope="default"/>
         </then>
     </filter>
-    <property name="REST_URL_POSTFIX_FOR_SWITCH" expression="substring-before(substring-after($axis2:REST_URL_POSTFIX,'/'),'?')" />
-    <switch source="$ctx:REST_URL_POSTFIX_FOR_SWITCH">
-        <case regex="rooms4Time">
-            <log level="custom">
-                <property name="rooms4Time" value="start" />
-            </log> 
-            <payloadFactory media-type="xml">
-                <format>
-                    <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:room="http://rooms.provider.elis.unipotsdam.de/">
-                        <soapenv:Header/>
-                        <soapenv:Body xmlns="">
-                            <room:rooms4Time>
-                                <campus>$1</campus>
-                                $2
-                                $3
-                                <startTime>$4</startTime>
-                                <endTime>$5</endTime>
-                            </room:rooms4Time>
-                        </soapenv:Body>
-                    </soapenv:Envelope>
-                </format>
-                <args>
-                    <arg evaluator="xml" expression="$ctx:campus"/>
-                    <arg evaluator="xml" expression="$ctx:buildingElem"/>
-                    <arg evaluator="xml" expression="$ctx:roomElem"/>
-                    <arg evaluator="xml" expression="$ctx:startTime"/>
-                    <arg evaluator="xml" expression="$ctx:endTime"/>
-                </args>
-            </payloadFactory>
-        </case>
-        <case regex="reservations">
-            <log level="custom">
-                <property name="reservations" value="start" />
-            </log>
-            <payloadFactory media-type="xml">
-                <format>
-                    <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:room="http://rooms.provider.elis.unipotsdam.de/">
-                        <soapenv:Header/>
-                        <soapenv:Body xmlns="">
-                            <room:reservations>
-                                <campus>$1</campus>
-                                $2
-                                $3
-                                <startTime>$4</startTime>
-                                <endTime>$5</endTime>
-                            </room:reservations>
-                        </soapenv:Body>
-                    </soapenv:Envelope>
-                </format>
-                <args>
-                    <arg evaluator="xml" expression="$ctx:campus"/>
-                    <arg evaluator="xml" expression="$ctx:buildingElem"/>
-                    <arg evaluator="xml" expression="$ctx:roomElem"/>
-                    <arg evaluator="xml" expression="$ctx:startTime"/>
-                    <arg evaluator="xml" expression="$ctx:endTime"/>
-                </args>
-            </payloadFactory>
-        </case>
-        <default/>
-    </switch>
+    <payloadFactory media-type="xml">
+        <format>
+            <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:room="http://rooms.provider.elis.unipotsdam.de/">
+                <soapenv:Header/>
+                <soapenv:Body xmlns="">
+                    <room:rooms4Time>
+                        <campus>$1</campus>
+                        <startTime>$2</startTime>
+                        <endTime>$3</endTime>
+                    </room:rooms4Time>
+                </soapenv:Body>
+            </soapenv:Envelope>
+        </format>
+        <args>
+            <arg evaluator="xml" expression="$ctx:campus"/>
+            <arg evaluator="xml" expression="$ctx:startTime"/>
+            <arg evaluator="xml" expression="$ctx:endTime"/>
+        </args>
+    </payloadFactory>
 
-    <!--    
+        
     <log level="custom">
         <property name="body" expression="$body" />
     </log>
-    -->
+
+    <log level="full"/>
 
     <property name="ContentType" value="text/xml" scope="axis2"/>
 
