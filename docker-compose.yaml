@@ -20,7 +20,7 @@ services:
     depends_on:
       - postgres
     healthcheck:
-      test: ["CMD", "nc", "-z", "localhost", "9443"]
+      test: ["CMD", "curl", "-k", "-f", "https://localhost:9443/api/health-check/v1.0/health"]
       interval: 10s
       start_period: 180s
       retries: 20
