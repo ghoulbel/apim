@@ -14,16 +14,20 @@ create_admin_account = true
 type = "database_unique_id"
 
 [database.apim_db]
-type = "h2"
-url = "jdbc:h2:./repository/database/WSO2AM_DB;AUTO_SERVER=TRUE;DB_CLOSE_ON_EXIT=FALSE"
-username = "wso2carbon"
-password = "wso2carbon"
+type = "postgre"
+url = "jdbc:postgresql://localhost:5432/apim_db"
+username = "apimadmin"
+password = "apimadmin"
+driver = "org.postgresql.Driver"
+validationQuery = "SELECT 1"
 
 [database.shared_db]
-type = "h2"
-url = "jdbc:h2:./repository/database/WSO2SHARED_DB;DB_CLOSE_ON_EXIT=FALSE"
-username = "wso2carbon"
-password = "wso2carbon"
+type = "postgre"
+url = "jdbc:postgresql://localhost:5432/shared_db"
+username = "sharedadmin"
+password = "sharedadmin"
+driver = "org.postgresql.Driver"
+validationQuery = "SELECT 1"
 
 [keystore.tls]
 file_name =  "wso2carbon.jks"
