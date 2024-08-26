@@ -26,7 +26,7 @@ comment="unexpected error occurred"
 # function to parse podman stats and generate metrics
 parse_podman_stats () {
     local container_stats
-    container_stats=$(su - ghoulbel -c "podman stats --no-stream --format 'table {{.Name}}\t{{.CPUPerc}}\t{{.MemPerc}}'" 2>/dev/null)
+    container_stats=$(podman stats --no-stream --format 'table {{.Name}}\t{{.CPUPerc}}\t{{.MemPerc}}' 2>/dev/null)
     
     if [[ -z "$container_stats" ]]; then
         comment="no container stats found"

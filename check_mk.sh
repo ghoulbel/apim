@@ -1,0 +1,1 @@
+su - ghoulbel ~/documents/projects/up/apim/podman_stats.sh 
